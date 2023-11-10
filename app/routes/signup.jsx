@@ -48,9 +48,7 @@ export let action = async ({ request }) => {
 export default function Signup() {
   const users = useLoaderData();
   const actionData = useActionData();
-  const fetcher = useFetcher(); // Add this line
-
-  console.log(fetcher);
+  const fetcher = useFetcher();
   const isSubmitting = fetcher.state === 'submitting';
   return (
     <fetcher.Form method='post' className='form'>
