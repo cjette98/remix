@@ -1,4 +1,4 @@
-import { useLoaderData, useActionData } from '@remix-run/react';
+import { useLoaderData, useActionData, useFetcher } from '@remix-run/react';
 import { json, redirect } from '@remix-run/node';
 import axios from 'axios';
 
@@ -48,8 +48,12 @@ export let action = async ({ request }) => {
 export default function Signup() {
   const users = useLoaderData();
   const actionData = useActionData();
+  const fetcher = useFetcher(); // Add this line
+
+  console.log(fetcher);
+  const isSubmitting = fetcher.state === 'submitting';
   return (
-    <form method='post' className='form'>
+    <fetcher.Form method='post' className='form'>
       <div className='form-group'>
         <label htmlFor='title' className='form-label'>
           Title:
@@ -105,9 +109,9 @@ export default function Signup() {
         {actionData?.errors.isHuman && <p>{actionData.errors.isHuman}</p>}
       </div>
 
-      <button className='button' type='submit'>
-        Submit
+      <button disabled={isSubmitting} className='button' type='submit'>
+        {isSubmitting ? `Submitting...` : `Submit`}
       </button>
-    </form>
+    </fetcher.Form>
   );
 }
